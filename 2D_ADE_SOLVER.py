@@ -229,7 +229,7 @@ fig,ax=plt.subplots(figsize=(10,5))
 #PLOT COLOR MESH
 cmin=np.min(phi)		
 cmax=np.max(phi)
-cs=ax.pcolormesh(x,y,np.transpose(phi[0,1:-1,1:-1]), cmap=cm.PuBu, vmin=cmin,vmax=cmax)
+cs=ax.pcolormesh(x,y,np.transpose(phi[0,1:-1,1:-1]), cmap=cm.RdPu, vmin=cmin,vmax=cmax)
 
 cbar=fig.colorbar(cs)
 
@@ -241,7 +241,7 @@ ax.set_title("2D Advection-Diffusion FVM Solver")
 def update(t):
 	for txt in ax.texts:
 		txt.set_visible(False)
-	ax.pcolormesh(x,y,np.transpose(phi[t,1:-1,1:-1]), cmap=cm.PuBu, vmin=cmin,vmax=cmax)
+	ax.pcolormesh(x,y,np.transpose(phi[t,1:-1,1:-1]), cmap=cm.RdPu, vmin=cmin,vmax=cmax)
 	ax.text(0,-length/10,'at time= %f sec'%(t*dt), size=10)
 
 sim= animation.FuncAnimation(fig,update, frames=range(0,len(phi[:,0,0])), interval=10, repeat=False)
