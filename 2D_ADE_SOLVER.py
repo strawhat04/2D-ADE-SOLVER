@@ -49,7 +49,7 @@ def dyg(j):
 
 #INPUT & INITIAL CONDITION
 	 	
-irho=25		#unifrom density of flow
+irho=50		#unifrom density of flow
 iphi=5		#uniform initial scalar for scalar initiation
 
 runtime=1
@@ -66,7 +66,7 @@ width=10
 sc=0	#source terms
 sp=0
 
-dt=0.05	#time step
+dt=0.01	#time step
 
 
 #MESH ELEMENTS
@@ -138,9 +138,10 @@ gamma=diffusion(CV_xGRID_nos, CV_yGRID_nos)
 
 #INITIATE FUCNTIONS
 iniFunc=lambda m: [np.zeros((xGRID_nos,yGRID_nos)) for _ in range(m)]
-
+#ALGEBRIC EQUATION COEFF
 ae,aw,au,ad,ap,ap0,b,d,c=iniFunc(9)
 
+#TDMA ALGO TERMS
 R=np.zeros(xGRID_nos+2)		#include 2 ghost nodes for including source terms outside domain 
 Q=np.zeros(xGRID_nos+2)
 
@@ -199,6 +200,7 @@ print("Please bear with us for few minutes :)")
 for t in range(1, len(phi[:,0])):
 	rdue.fill(1)
 	itera=0
+	phi[t,:,:]=phi[t-1,:,:]		#for good initial approximation
 	while np.linalg.norm(rdue, 2)>1e-4 :  #np.max(np.abs(rdue))>1e-7 and
 		for j in range(0, yGRID_nos):
 			for i in range(0, xGRID_nos):
