@@ -121,8 +121,9 @@ def diffusion(CV_xGRID_nos, CV_yGRID_nos):
 	#subtract false diffusion coefficient due to oblique flow
 	for j in range(1, yGRID_nos):
 		for i in range(1, xGRID_nos):
-			theta=atan(v[i,j]/u[i,j])
-			gamma[i,j]=gamma[i,j]-rho[i,j]*sqrt(u[i,j]**2+v[i,j]**2)*dxg(i)*dyg(j)*sin(2*theta)/(4*dyg(j)*sin(theta)**3+4*dxg(i)*cos(theta)**3) 
+			if u[i,j]!=0 and v[i,j]!=0:
+				theta=atan(v[i,j]/u[i,j])
+				gamma[i,j]=gamma[i,j]-rho[i,j]*sqrt(u[i,j]**2+v[i,j]**2)*dxg(i)*dyg(j)*sin(2*theta)/(4*dyg(j)*sin(theta)**3+4*dxg(i)*cos(theta)**3) 
 	return gamma
 
 #CREATE GRID POINTS
@@ -149,8 +150,8 @@ phi=iphi*np.ones((int(runtime/dt)+1,xGRID_nos+2, yGRID_nos+2))	 #include 2 ghost
 
 
 #COMPUTE ALGEBRIC COEFF	
-for i in range(0,xGRID_nos):
-	for j in range(0,yGRID_nos):
+for i in range(1,xGRID_nos-1):
+	for j in range(1,yGRID_nos-1):
 		aw[i,j]=D(gamma[i,j], dxg(i),dy(j))*funA(F(rho[i,j],u[i,j], dy(j)),D(gamma[i,j], dxg(i), dy(j))) + max(F(rho[i,j],u[i,j], dy(j)),0)
 		
 		ae[i,j]=D(gamma[i+1,j], dxg(i+1),dy(j))*funA(F(rho[i+1,j],u[i+1,j],dy(j)),D(gamma[i+1,j], dxg(i+1), dy(j))) + max(-F(rho[i+1,j],u[i+1,j],dy(j)),0)	
