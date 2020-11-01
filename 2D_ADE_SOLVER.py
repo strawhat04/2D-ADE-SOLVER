@@ -176,7 +176,10 @@ for i in range(1,xGRID_nos-1):
 phi[:,:,0]=20
 
 
-#FORCED BOUNDARY COND
+#FORCED BOUNDARY COND for TDMA on x faces
+Q[1]=1			
+Q[xGRID_nos]=1
+
 #Please put source type BC here
 Q[0]=50		#source term at x=0-
 R[0]=0
